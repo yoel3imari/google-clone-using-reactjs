@@ -1,8 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Button } from '@mui/material';
+
+
+function HeaderSearch() {
+    const [input, setInput] = useState("");
+    const [closeIcon, setCloseIcon] = useState(false);
+    const navigate = useNavigate();
+    const search = e => {
+        e.preventDefault();
+        navigate("/Search", { replace: true });
+    }
+    const closeButton = () => {
+        document.querySelector("form input").value = "";
+    }
+    return (
+        <HeaderSearchContainer className='header__search'>
+            <HeaderLogo className='header__logo'>
+                <Link to="/">
+                    <img src='./assets/header_logo.png' width="92" height="30" alt="Google" />
+                </Link>
+            </HeaderLogo>
+            <form onSubmit={search}>
+                <input
+                    type="search"
+                    name="q"
+                    value={input}
+                    onChange={e => {
+                        setInput(e.target.value);
+                        if (e.target.value !== "")
+                            setCloseIcon(true);
+                        else
+                            setCloseIcon(false);
+                    }
+                    }
+                />
+                <Button className='close' onClick={closeButton} >
+                    {(closeIcon) ? <CloseRoundedIcon sx={{ color: "#5f6368" }} /> : ""}
+                </Button>
+                { (closeIcon)? <ButtonBorder className='button__border'></ButtonBorder> : "" }
+                <Button type="submit">
+                    <SearchRoundedIcon color="primary" />
+                </Button>
+            </form>
+        </HeaderSearchContainer>
+    )
+}
 
 const HeaderSearchContainer = styled.div`
     display: flex;
@@ -20,6 +67,15 @@ const HeaderSearchContainer = styled.div`
         border: none;
         border-radius: 25px;
         box-shadow: 0 2px 5px 1px rgba(64, 60, 67, .16);
+
+        Button {
+            margin-inline: 0;
+            border-radius: 50px;
+
+            &:hover {
+                background: none;
+            }
+        }
     }
 
     input {
@@ -68,28 +124,7 @@ const ButtonBorder = styled.div`
     height: 2rem;
     background-color: #dadce0;
     border-radius: 2px;
+    margin-inline: 2px;
 `;
-
-function HeaderSearch() {
-    return (
-        <HeaderSearchContainer className='header__search'>
-            <HeaderLogo className='header__logo'>
-                <Link to="/">
-                    <img src='./assets/header_logo.png' width="92" height="30" alt="Google" />
-                </Link>
-            </HeaderLogo>
-            <form>
-                <input type="search" name="search" autoComplete="false" autoCorrect='false' autofill="false" />
-                <button type="reset" value="" >
-                    <CloseRoundedIcon sx={{ color: "#5f6368" }} />
-                </button>
-                <ButtonBorder className='button__border'></ButtonBorder>
-                <button type="submit">
-                    <SearchRoundedIcon color="primary" />
-                </button>
-            </form>
-        </HeaderSearchContainer>
-    )
-}
 
 export default HeaderSearch

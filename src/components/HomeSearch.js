@@ -8,15 +8,18 @@ import { Button } from '@mui/material';
 
 function HomeSearch() {
     const [input, setInput] = useState("");
-    const [close, setClose] = useState(false);
+    const [closeIcon, setCloseIcon] = useState(false);
     const navigate = useNavigate();
     const search = e => {
         e.preventDefault();
-        navigate("../search", { replace: true });
+        navigate("/Search", { replace: true });
     }
     const lucky = e => {
         e.preventDefault();
         window.open("https://www.google.com/doodles", '_self');
+    }
+    const closeButton = () => {
+        document.querySelector("form input").value = "";
     }
 
     return (
@@ -25,14 +28,24 @@ function HomeSearch() {
                 <img src='./assets/google.png' width="272" height="92" alt="Google" />
             </HomeSearchLogo>
             <HomeSearchBar>
-                <form>
+                <form onSubmit={search}>
                     <IconContainer>
                         <SearchRoundedIcon color='disabled' sx={{ width: "20px", height: "20px" }} />
                     </IconContainer>
-                    <input type="search" name="search" value={input} onChange={e => { setInput(e.target.value); if( e.target.value !== "" ) setClose(true); else setClose(false); }} />
-                    <button type="reset" value="" >
-                        { ( close )? <CloseRoundedIcon sx={{ color: "#5f6368" }} /> : "" }
-                    </button>
+                    <input 
+                        type="search"
+                        name="q"
+                        value={input}
+                        onChange={e => {
+                            setInput(e.target.value);
+                            if( e.target.value !== "" ) 
+                                setCloseIcon(true);
+                            else
+                                setCloseIcon(false); }
+                        } />
+                    <Button onClick={closeButton} >
+                        { ( closeIcon )? <CloseRoundedIcon sx={{ color: "#5f6368" }} /> : "" }
+                    </Button>
                 </form>
                 <HomeSearchOptions>
                     <ButtonContainer>
@@ -87,6 +100,15 @@ const HomeSearchBar = styled.div`
         align-items: center;
         justify-content: flex-end;
         border-radius: 25px;
+
+        Button {
+            margin-inline: 0;
+            border-radius: 50px;
+
+            &:hover {
+                background: none;
+            }
+        }
 
         &:hover {
             box-shadow: 0 1px 6px rgba(32,33,36,.28);
