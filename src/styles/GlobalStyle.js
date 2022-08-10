@@ -15,7 +15,7 @@ html {
 body {
     font-family: arial,sans-serif;
     font-size: 1rem;
-    height: 100%;
+    min-height: 100vh;
     min-width: 400px;
 }
 

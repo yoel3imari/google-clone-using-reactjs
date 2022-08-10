@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import Results from '../components/Results';
+import SearchOptions from '../components/SearchOptions';
 import { useStateValue } from '../components/StateProvider';
 import useGoogle from '../useGoogle';
+
 
 function SearchPage() {
 
@@ -14,13 +17,15 @@ function SearchPage() {
             document.title = term;
     });
     return (
-        <div>
+        <Fragment>
             <Header in="search" />
-            <SearchOptions></SearchOptions>
-            <Results></Results>
-            <Footer></Footer>
-        </div>
+            <SearchOptions />
+            <Results />
+            <Footer />
+        </Fragment>
     )
 }
+
+
 
 export default SearchPage

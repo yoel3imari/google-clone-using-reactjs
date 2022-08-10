@@ -16,8 +16,8 @@ const useGoogle = (term) => {
                 .then(result => setData(result))
         }
 
-        if( term != null )
-            fetchData(term);
+        //if( term != null )
+            //fetchData(term);
     }, [term]);
 
     return { data }

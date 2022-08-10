@@ -11,7 +11,7 @@ function Header(props) {
     return (
         <HeaderContainer in={props.in} justify={location.pathname === "/"? "flex-end":"space-between"}>
             {(location.pathname === "/") ? "" : <HeaderSearch />}
-            <HeaderOptions>
+            <HeaderOptions >
                 {(location.pathname === "/") ? <HeaderLinks /> : <HeaderSetting />}
                 <HeaderMenu >
                     <AppsIcon sx={{ color: "#5f6368" }} />
@@ -50,7 +50,7 @@ const HeaderContainer = styled.header`
     justify-content: ${props => props.justify};
     height: ${props => (props.in === "search")? "3.75rem":"3rem"};
     padding-inline: .5rem;
-    padding-block: ${props => (props.in === "search")? "1.75rem":"6px"};
+    padding-block: ${props => (props.in === "search")? "1rem":"6px"};
 `;
 
 const HeaderOptions = styled.div`

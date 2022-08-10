@@ -45,6 +45,7 @@ function HeaderSearch() {
                     type="search"
                     name="q"
                     id="searchInput"
+                    value={input}
                     onChange={e => {
                         setInput(e.target.value);
                         if (e.target.value !== "")
