@@ -144,11 +144,10 @@ const HeaderLogo = styled.div`
 `;
 
 const ButtonBorder = styled.div`
-    width: 2px;
+    width: 1px;
     height: 2rem;
     background-color: #dadce0;
     border-radius: 2px;
-    margin-inline: 2px;
 `;
 
 export default HeaderSearch

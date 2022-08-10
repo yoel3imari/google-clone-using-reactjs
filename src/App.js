@@ -2,8 +2,8 @@ import React from "react";
 import 'normalize.css';
 import { BrowserRouter as Router, Routes as Switch, Route } from "react-router-dom";
 
-import Search from "./pages/Search";
-import Home from "./pages/Home";
+import SearchPage from "./pages/SearchPage";
+import HomePage from "./pages/HomePage";
 import ErrorPage from "./pages/ErrorPage";
 import GlobalStyle from "./styles/GlobalStyle";
 import { ThemeProvider } from "styled-components";
@@ -16,9 +16,9 @@ function App() {
             <ThemeProvider theme={light}>
                 <Router>
                     <Switch>
-                        <Route path="/Search" element={<Search />} />
-                        <Route path="/Home" element={<Home />} />
-                        <Route path="/" element={<Home />} />
+                        <Route path="/Search" element={<SearchPage />} />
+                        <Route path="/Home" element={<HomePage />} />
+                        <Route path="/" element={<HomePage />} />
                         <Route path="*" element={<ErrorPage />} />
                     </Switch>
                 </Router>

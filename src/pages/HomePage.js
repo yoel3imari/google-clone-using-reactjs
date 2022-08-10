@@ -10,7 +10,7 @@ const HomeContainer = styled.div`
     flex-direction: column;
 `;
 
-function Home() {
+function HomePage() {
     return (
         <HomeContainer >
             <Header in="home" />
@@ -20,4 +20,4 @@ function Home() {
     )
 }
 
-export default Home
+export default HomePage
