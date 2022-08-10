@@ -1,20 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
+import { useStateValue } from "./StateProvider";
+import { actionTypes } from "../reducer";
 
 
 function HeaderSearch() {
+    const [{term}, dispatch] = useStateValue();
     const [input, setInput] = useState("");
     const [closeIcon, setCloseIcon] = useState(false);
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        if( term != null ) {
+            document.querySelector("#searchInput").value = term;
+        }
+    });
+    
     const search = e => {
         e.preventDefault();
         navigate("/Search", { replace: true });
+        dispatch({
+            type: actionTypes.SET_SEARCH_TERM,
+            term: input
+        });
     }
+    
     const closeButton = () => {
         document.querySelector("form input").value = "";
     }
@@ -29,20 +44,21 @@ function HeaderSearch() {
                 <input
                     type="search"
                     name="q"
-                    value={input}
+                    id="searchInput"
                     onChange={e => {
                         setInput(e.target.value);
                         if (e.target.value !== "")
                             setCloseIcon(true);
                         else
                             setCloseIcon(false);
-                    }
-                    }
+                    }}
                 />
-                <Button className='close' onClick={closeButton} >
-                    {(closeIcon) ? <CloseRoundedIcon sx={{ color: "#5f6368" }} /> : ""}
-                </Button>
-                { (closeIcon)? <ButtonBorder className='button__border'></ButtonBorder> : "" }
+                {closeIcon ? (
+                    <Button onClick={closeButton} >
+                        <CloseRoundedIcon sx={{ color: "#5f6368" }} />
+                    </Button>
+                ) : ""}
+                {(closeIcon) ? <ButtonBorder className='button__border'></ButtonBorder> : ""}
                 <Button type="submit">
                     <SearchRoundedIcon color="primary" />
                 </Button>
@@ -59,11 +75,12 @@ const HeaderSearchContainer = styled.div`
 
     form {
         margin-inline: 1rem;
-       padding-inline: .25rem;
+        padding-inline: .5rem;
         width: calc(100vw / 2);
+        height: 2.875rem;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
         border: none;
         border-radius: 25px;
         box-shadow: 0 2px 5px 1px rgba(64, 60, 67, .16);
@@ -76,11 +93,17 @@ const HeaderSearchContainer = styled.div`
                 background: none;
             }
         }
+
+        &:hover {
+            background-color: #fff;
+            box-shadow: 0 2px 8px 1px rgba(64,60,67,.24);
+            border-color: rgba(223,225,229,0);
+        }
     }
 
     input {
         width: 100%;
-        height: 2.875rem;
+        height: 2.25rem;
         border: none;
         /* border-radius: 25px; */
         margin-left: 2rem;
@@ -114,6 +137,7 @@ const HeaderSearchContainer = styled.div`
 
 const HeaderLogo = styled.div`
     margin-right: 1rem;
+    padding-inline: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;

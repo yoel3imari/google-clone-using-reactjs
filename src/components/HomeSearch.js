@@ -4,15 +4,23 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
+import { useStateValue } from "./StateProvider";
+import { actionTypes } from "../reducer";
+
 
 
 function HomeSearch() {
+    const [{}, dispatch] = useStateValue();
     const [input, setInput] = useState("");
     const [closeIcon, setCloseIcon] = useState(false);
     const navigate = useNavigate();
     const search = e => {
         e.preventDefault();
         navigate("/Search", { replace: true });
+        dispatch({
+            type: actionTypes.SET_SEARCH_TERM,
+            term: input
+        });
     }
     const lucky = e => {
         e.preventDefault();
@@ -32,20 +40,23 @@ function HomeSearch() {
                     <IconContainer>
                         <SearchRoundedIcon color='disabled' sx={{ width: "20px", height: "20px" }} />
                     </IconContainer>
-                    <input 
+                    <input
                         type="search"
                         name="q"
                         value={input}
                         onChange={e => {
                             setInput(e.target.value);
-                            if( e.target.value !== "" ) 
+                            if (e.target.value !== "")
                                 setCloseIcon(true);
                             else
-                                setCloseIcon(false); }
+                                setCloseIcon(false);
+                        }
                         } />
-                    <Button onClick={closeButton} >
-                        { ( closeIcon )? <CloseRoundedIcon sx={{ color: "#5f6368" }} /> : "" }
-                    </Button>
+                    {closeIcon ? (
+                        <Button onClick={closeButton} >
+                            <CloseRoundedIcon sx={{ color: "#5f6368" }} />
+                        </Button>
+                    ) : ""}
                 </form>
                 <HomeSearchOptions>
                     <ButtonContainer>
@@ -90,7 +101,7 @@ const HomeSearchBar = styled.div`
     width: 100%;
     form {
         margin-inline: 1rem;
-        padding-inline: .25rem;
+        padding-inline: .5rem;
         margin-top: 8px;
         max-width: 36rem;
         width: 75%;
@@ -98,7 +109,7 @@ const HomeSearchBar = styled.div`
         border: 1px solid #dfe1e5;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
         border-radius: 25px;
 
         Button {
@@ -120,14 +131,13 @@ const HomeSearchBar = styled.div`
     }
 
     input {
-        width: 100%;
-        height: 2.875rem;
-        border-top: 1px solid #dfe1e5;
-        border-bottom: 1px solid #dfe1e5;
-        border-left: none;
-        border-right: none;
+        width: 85%;
+        height: 2.25rem;
+        border: none;
         font-size: 1rem;
         font-weight: normal;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
     }
 
     input:focus-visible {

@@ -32,6 +32,16 @@ ul {
     list-style: none;
 }
 
+.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hide {
+    visibility: hidden;
+    opacity: 0;
+}
+
 `;
 
 export default GlobalStyle;
