@@ -11,23 +11,33 @@ import { actionTypes } from "../reducer";
 
 function HomeSearch() {
     const [{}, dispatch] = useStateValue();
+
     const [input, setInput] = useState("");
+
     const [closeIcon, setCloseIcon] = useState(false);
+
     const navigate = useNavigate();
-    const search = e => {
+
+    const search = (e) => {
         e.preventDefault();
-        navigate("/Search", { replace: true });
         dispatch({
             type: actionTypes.SET_SEARCH_TERM,
             term: input
         });
+        navigate("/Search");
     }
+
     const lucky = e => {
         e.preventDefault();
         window.open("https://www.google.com/doodles", '_self');
     }
+
     const closeButton = () => {
         document.querySelector("form input").value = "";
+        dispatch({
+            type: actionTypes.SET_SEARCH_TERM,
+            term: ""
+        });
     }
 
     return (
@@ -36,34 +46,33 @@ function HomeSearch() {
                 <img src='./assets/google.png' width="272" height="92" alt="Google" />
             </HomeSearchLogo>
             <HomeSearchBar>
-                <form onSubmit={search}>
-                    <IconContainer>
-                        <SearchRoundedIcon color='disabled' sx={{ width: "20px", height: "20px" }} />
-                    </IconContainer>
-                    <input
-                        type="search"
-                        name="q"
-                        value={input}
-                        onChange={e => {
-                            setInput(e.target.value);
-                            if (e.target.value !== "")
-                                setCloseIcon(true);
-                            else
-                                setCloseIcon(false);
-                        }
-                        } />
-                    {closeIcon ? (
-                        <Button onClick={closeButton} >
-                            <CloseRoundedIcon sx={{ color: "#5f6368" }} />
-                        </Button>
-                    ) : ""}
+                <form>
+                    <SearchInput>
+                        <IconContainer>
+                            <SearchRoundedIcon color='disabled' sx={{ width: "20px", height: "20px" }} />
+                        </IconContainer>
+                        <input
+                            type="search"
+                            autoComplete="off"
+                            value={input}
+                            onChange={e => {
+                                setInput(e.target.value);
+                                (e.target.value !== "") ? setCloseIcon(true) : setCloseIcon(false);
+                            }
+                            } />
+                        {closeIcon ? (
+                            <Button id='closeButtonContainer' onClick={closeButton} >
+                                <CloseRoundedIcon sx={{ color: "#5f6368" }} />
+                            </Button>
+                        ) : ""}
+                    </SearchInput>
+                    <HomeSearchOptions>
+                        <ButtonContainer>
+                            <Button onClick={search} type="submit">Google Search</Button>
+                            <Button onClick={lucky} >I'm feeling lucky</Button>
+                        </ButtonContainer>
+                    </HomeSearchOptions>
                 </form>
-                <HomeSearchOptions>
-                    <ButtonContainer>
-                        <Button onClick={search}>Google Search</Button>
-                        <Button onClick={lucky} >I'm feeling lucky</Button>
-                    </ButtonContainer>
-                </HomeSearchOptions>
             </HomeSearchBar>
             <LanguageContainer>
                 Google offered in:
@@ -90,7 +99,7 @@ const HomeSearchLogo = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`;
+    `;
 
 const HomeSearchBar = styled.div`
     display: flex;
@@ -100,32 +109,18 @@ const HomeSearchBar = styled.div`
     padding-block: 20px;
     width: 100%;
     form {
-        margin-inline: 1rem;
-        padding-inline: .5rem;
-        margin-top: 8px;
-        max-width: 36rem;
-        width: 75%;
-        height: 44px;
-        border: 1px solid #dfe1e5;
+        width: 100%;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        border-radius: 25px;
+        flex-direction: column;
+        justify-content: center;
 
-        Button {
+        #closeButtonContainer {
             margin-inline: 0;
             border-radius: 50px;
 
             &:hover {
                 background: none;
-            }
-        }
-
-        &:hover {
-            box-shadow: 0 1px 6px rgba(32,33,36,.28);
-            border-color: rgba(223,225,229,0);
-            & input {
-                border-color: rgba(223,225,229,0);
             }
         }
     }
@@ -160,6 +155,32 @@ const HomeSearchBar = styled.div`
 
 `;
 
+const SearchInput = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    width: 75%;
+    height: 44px;
+    border: 1px solid #dfe1e5;
+
+    margin-inline: 1rem;
+    padding-inline: .5rem;
+    margin-top: 8px;
+    max-width: 36rem;
+    border-radius: 25px;
+
+    &:hover {
+        box-shadow: 0 1px 6px rgba(32,33,36,.28);
+        border-color: rgba(223,225,229,0);
+        & input {
+            border-color: rgba(223,225,229,0);
+        }
+    }
+`;
+
 const IconContainer = styled.div`
     height: 20px;
     width: 20px;
@@ -184,6 +205,7 @@ const ButtonContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    column-gap: 2rem;
     Button {
         background-color: #f8f9fa;
         border: 1px solid #f8f9fa;

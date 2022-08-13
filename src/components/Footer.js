@@ -5,7 +5,7 @@ function Footer() {
 	return (
 		<FooterContainer>
 			<Location>
-				<span>Morocco</span>
+				<span>Morocco | By yoel3imari</span>
 			</Location>
 			<Navigation>
 				<Help>
@@ -49,8 +49,6 @@ const FooterContainer = styled.footer`
 	justify-content: center;
 	background-color: #f2f2f2;
 	color: #70757a;
-	position: absolute;
-    bottom: 0;
     width: 100%;
 
 	ul {

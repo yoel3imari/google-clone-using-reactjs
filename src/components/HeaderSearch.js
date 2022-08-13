@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { Link } from 'react-router-dom';
@@ -10,29 +9,27 @@ import { actionTypes } from "../reducer";
 
 
 function HeaderSearch() {
-    const [{term}, dispatch] = useStateValue();
+    const [{ term }, dispatch] = useStateValue();
     const [input, setInput] = useState("");
     const [closeIcon, setCloseIcon] = useState(false);
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-        if( term != null ) {
-            document.querySelector("#searchInput").value = term;
-        }
-    });
-    
-    const search = e => {
+
+    const search = (e) => {
         e.preventDefault();
-        navigate("/Search", { replace: true });
+        console.log(input);
         dispatch({
             type: actionTypes.SET_SEARCH_TERM,
             term: input
         });
     }
-    
+
+    useEffect(() => {
+        setInput(term);
+    }, [term])
+
     const closeButton = () => {
         document.querySelector("form input").value = "";
     }
+
     return (
         <HeaderSearchContainer className='header__search'>
             <HeaderLogo className='header__logo'>
@@ -40,18 +37,16 @@ function HeaderSearch() {
                     <img src='./assets/header_logo.png' width="92" height="30" alt="Google" />
                 </Link>
             </HeaderLogo>
-            <form onSubmit={search}>
+            <form>
                 <input
                     type="search"
                     name="q"
                     id="searchInput"
+                    autoComplete="off"
                     value={input}
                     onChange={e => {
                         setInput(e.target.value);
-                        if (e.target.value !== "")
-                            setCloseIcon(true);
-                        else
-                            setCloseIcon(false);
+                        (e.target.value !== "") ? setCloseIcon(true) : setCloseIcon(false);
                     }}
                 />
                 {closeIcon ? (
@@ -60,7 +55,7 @@ function HeaderSearch() {
                     </Button>
                 ) : ""}
                 {(closeIcon) ? <ButtonBorder className='button__border'></ButtonBorder> : ""}
-                <Button type="submit">
+                <Button type="submit" onClick={search}>
                     <SearchRoundedIcon color="primary" />
                 </Button>
             </form>

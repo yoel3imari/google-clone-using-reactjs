@@ -92,7 +92,7 @@ const SearchType = styled.div`
     margin-left: 180px;
 
     svg {
-        width: 18px;
+        width: 16px;
     }
     
     ul {

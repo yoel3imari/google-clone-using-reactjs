@@ -11,6 +11,7 @@ const HomeContainer = styled.div`
 `;
 
 function HomePage() {
+
     return (
         <HomeContainer >
             <Header in="home" />

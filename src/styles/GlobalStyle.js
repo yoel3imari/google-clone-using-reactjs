@@ -15,12 +15,17 @@ html {
 body {
     font-family: arial,sans-serif;
     font-size: 1rem;
-    min-height: 100vh;
+    height: 100vh;
     min-width: 400px;
 }
 
 #root, .App {
     height: 100%;
+}
+
+.App {
+    display: flex; 
+    flex-direction: column;
 }
 
 a {
